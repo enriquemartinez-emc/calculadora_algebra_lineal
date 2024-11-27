@@ -2,6 +2,7 @@ from ui.bisection_method_ui import BisectionMethodUI
 from ui.cramers_rule_ui import CramersRuleUI
 from ui.determinant_of_matrix_ui import DeterminantOfMatrixUI
 from ui.gaussian_elimination_ui import GaussianEliminationUI
+from ui.inverse_of_matrix_ui import InverseOfMatrixUI
 from ui.matrix_equation_ui import MatrixEquationUI
 from ui.matrix_product_by_vector_sum_ui import MatrixProductByVectorSumUI
 from ui.matrix_product_ui import MatrixProductUI
@@ -27,6 +28,7 @@ class OperationUIFactory:
         "Matrix Product by Vector Sum": MatrixProductByVectorSumUI,
         "Determinant of a Matrix": DeterminantOfMatrixUI,
         "Cramer's Rule": CramersRuleUI,
+        "Inverse of a Matrix": InverseOfMatrixUI,
     }
 
     @staticmethod

@@ -2,6 +2,7 @@ from strategies.bisection_method import BisectionMethod
 from strategies.cramers_rule import CramersRule
 from strategies.determinant_of_matrix import DeterminantOfMatrix
 from strategies.gaussian_elimination import GaussianElimination
+from strategies.inverse_of_matrix import InverseOfMatrix
 from strategies.matrix_equation import MatrixEquation
 from strategies.matrix_product import MatrixProduct
 from strategies.matrix_product_by_vector_sum import MatrixProductByVectorSum
@@ -27,6 +28,7 @@ class OperationFactory:
         "Matrix Product by Vector Sum": MatrixProductByVectorSum,
         "Determinant of a Matrix": DeterminantOfMatrix,
         "Cramer's Rule": CramersRule,
+        "Inverse of a Matrix": InverseOfMatrix,
     }
 
     @staticmethod
