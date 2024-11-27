@@ -72,6 +72,7 @@ class LinearAlgebraCalculatorApp:
             "Vector Addition", 
             "Vector Multiplication", 
             "Transpose Matrix", 
+            "Scalar Product",
             "Bisection Method",
         ]
         self.operation_combo = ttk.Combobox(self.frame1, values=operations)
