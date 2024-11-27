@@ -40,7 +40,6 @@ class RowEchelonUI:
         self.columns_spinbox = tk.Spinbox(self.size_frame, from_=2, to=10, command=self.update_matrix_inputs)
         self.columns_spinbox.pack(side="left")
 
-        # Placeholder for matrix input entries
         self.matrix_frame = tk.Frame(self.control_frame)
         self.matrix_frame.pack(anchor="center", pady=10)
 
@@ -64,8 +63,6 @@ class RowEchelonUI:
                 entry.insert(0, randint(1, 10))  # Random default value
                 self.matrix_entries[i][j] = entry
 
-        self.matrix_frame.grid_columnconfigure(list(range(cols)), weight=1)
-
     def calculate(self):
         rows = int(self.rows_spinbox.get())
         cols = int(self.columns_spinbox.get())
@@ -85,37 +82,44 @@ class RowEchelonUI:
             for widget in self.result_frame.winfo_children():
                 widget.destroy()
 
-        result_label = tk.Label(self.result_frame, text="Results", font=("Helvetica", 12, "bold"))
-        result_label.pack()
+        result_label = tk.Label(self.result_frame, text="Resultados", font=("Helvetica", 14, "bold"))
+        result_label.pack(pady=10)
 
-        original_label = tk.Label(self.result_frame, text="Original Matrix", font=("Helvetica", 10))
-        original_label.pack()
+        self.create_matrix_section("Matriz Original", result["original"])
+        self.create_matrix_steps_section(result["steps"])
+        self.create_matrix_section("Resultado Final", result["result"])
 
-        original_matrix_frame = tk.Frame(self.result_frame)
-        original_matrix_frame.pack(anchor="n", fill="x")
+    def create_matrix_section(self, title, matrix):
+        section_label = tk.Label(self.result_frame, text=title, font=("Helvetica", 12, "bold"))
+        section_label.pack(pady=5)
 
-        for row in result["original"]:
-            row_label = tk.Label(original_matrix_frame, text=row, font=("Helvetica", 10))
+        matrix_frame = tk.Frame(self.result_frame, relief=tk.SOLID, borderwidth=1)
+        matrix_frame.pack(pady=5)
+
+        max_col_widths = [max(len(str(matrix[i][j])) for i in range(len(matrix))) for j in range(len(matrix[0]))]
+
+        for row in matrix:
+            row_text = "  ".join(f"{str(cell).rjust(max_col_widths[j])}" for j, cell in enumerate(row))
+            row_label = tk.Label(matrix_frame, text=f"[ {row_text} ]", font=("Courier", 10))
             row_label.pack()
 
-        steps_label = tk.Label(self.result_frame, text="Steps", font=("Helvetica", 10))
-        steps_label.pack()
+    def create_matrix_steps_section(self, steps):
+        steps_label = tk.Label(self.result_frame, text="Pasos", font=("Helvetica", 12, "bold"))
+        steps_label.pack(pady=5)
 
-        for description, step in result["steps"]:
-            step_frame = tk.Frame(self.result_frame)
-            step_frame.pack(anchor="n", fill="x")
-            description_label = tk.Label(step_frame, text=description, font=("Helvetica", 10))
-            description_label.pack()
-            for row in step:
-                row_label = tk.Label(step_frame, text=row, font=("Helvetica", 10))
+        for description, matrix in steps:
+            step_frame = tk.Frame(self.result_frame, relief=tk.SOLID, borderwidth=1, pady=5)
+            step_frame.pack(pady=5)
+
+            description_label = tk.Label(step_frame, text=description, font=("Helvetica", 10, "italic"))
+            description_label.pack(pady=2)
+
+            matrix_frame = tk.Frame(step_frame)
+            matrix_frame.pack()
+
+            max_col_widths = [max(len(str(matrix[i][j])) for i in range(len(matrix))) for j in range(len(matrix[0]))]
+
+            for row in matrix:
+                row_text = "  ".join(f"{str(cell).rjust(max_col_widths[j])}" for j, cell in enumerate(row))
+                row_label = tk.Label(matrix_frame, text=f"[ {row_text} ]", font=("Courier", 10))
                 row_label.pack()
-
-        final_result_label = tk.Label(self.result_frame, text="Final Result", font=("Helvetica", 10))
-        final_result_label.pack()
-
-        result_matrix_frame = tk.Frame(self.result_frame)
-        result_matrix_frame.pack(anchor="n", fill="x")
-
-        for row in result["result"]:
-            row_label = tk.Label(result_matrix_frame, text=row, font=("Helvetica", 10))
-            row_label.pack()
