@@ -77,6 +77,7 @@ class LinearAlgebraCalculatorApp:
             "Matrix Equation",
             "Matrix Product by Vector Sum",
             "Determinant of a Matrix",
+            "Cramer's Rule",
             "Bisection Method",
         ]
 
