@@ -3,7 +3,7 @@ from ui.main_gui import LinearAlgebraCalculatorApp
 
 if __name__ == "__main__":
     # Initialize ttkbootstrap Window
-    app_window = Window(themename='solar')
+    app_window = Window()
     app_window.title("PySolve")
     app_window.state('zoomed')  # Maximize window
 

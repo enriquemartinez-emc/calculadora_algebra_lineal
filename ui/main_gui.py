@@ -7,7 +7,7 @@ class LinearAlgebraCalculatorApp:
     def __init__(self, root):
         self.root = root
         self.style = Style()  # Initialize the Style
-        self.style.theme_use('solar')  # Set the initial theme
+        self.style.theme_use('darkly')  # Set the initial theme
         self.frame1 = None
         self.frame2 = None
         self.frame3 = None
@@ -61,11 +61,11 @@ class LinearAlgebraCalculatorApp:
 
     def toggle_theme(self):
         current_theme = self.style.theme_use()
-        new_theme = 'cosmo' if current_theme == 'solar' else 'solar'
+        new_theme = 'cosmo' if current_theme == 'darkly' else 'darkly'
         self.style.theme_use(new_theme)
 
     def create_operation_selection_ui(self):
-        operations = [
+        self.operations = [
             "Gaussian Elimination", 
             "Row Echelon", 
             "Matrix Addition", 
@@ -85,12 +85,17 @@ class LinearAlgebraCalculatorApp:
             "Secant Method",
         ]
 
-        self.operation_combo = ttk.Combobox(self.frame1, values=operations, width=50)
+        self.operation_combo = ttk.Combobox(self.frame1, values=self.operations, width=50)
         self.operation_combo.grid(row=0, column=0, padx=5, pady=5, sticky="n")
         self.operation_combo.bind("<<ComboboxSelected>>", self.on_operation_selected)
         self.operation_combo.current(0)  # Set the default selection to Gaussian Elimination
 
         self.frame1.grid_columnconfigure(0, weight=1)  # Center the operation combo
+
+        self.show_all_options()
+
+    def show_all_options(self):
+        self.operation_combo["height"] = len(self.operations)
 
     def on_operation_selected(self, event):
         selected_operation = self.operation_combo.get()
