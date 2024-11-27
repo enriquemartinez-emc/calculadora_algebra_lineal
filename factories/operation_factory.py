@@ -2,6 +2,7 @@ from strategies.bisection_method import BisectionMethod
 from strategies.gaussian_elimination import GaussianElimination
 from strategies.row_echelon import RowEchelon
 from strategies.matrix_addition import MatrixAddition
+from strategies.transpose_matrix import TransposeMatrix
 from strategies.vector_addition import VectorAddition
 from strategies.vector_multiplication import VectorMultiplication
 
@@ -12,7 +13,8 @@ class OperationFactory:
         "Matrix Addition": MatrixAddition,
         "Bisection Method": BisectionMethod,
         "Vector Addition": VectorAddition,
-        "Vector Multiplication": VectorMultiplication
+        "Vector Multiplication": VectorMultiplication,
+        "Transpose Matrix": TransposeMatrix
     }
 
     @staticmethod
