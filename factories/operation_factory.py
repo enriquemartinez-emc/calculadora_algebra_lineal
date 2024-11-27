@@ -1,4 +1,5 @@
 from strategies.bisection_method import BisectionMethod
+from strategies.determinant_of_matrix import DeterminantOfMatrix
 from strategies.gaussian_elimination import GaussianElimination
 from strategies.matrix_equation import MatrixEquation
 from strategies.matrix_product import MatrixProduct
@@ -23,6 +24,7 @@ class OperationFactory:
         "Matrix Product": MatrixProduct,
         "Matrix Equation": MatrixEquation,
         "Matrix Product by Vector Sum": MatrixProductByVectorSum,
+        "Determinant of a Matrix": DeterminantOfMatrix,
     }
 
     @staticmethod
