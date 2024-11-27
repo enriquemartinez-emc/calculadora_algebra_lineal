@@ -65,7 +65,7 @@ class LinearAlgebraCalculatorApp:
         self.style.theme_use(new_theme)
 
     def create_operation_selection_ui(self):
-        operations = ["Gaussian Elimination", "Row Echelon", "Matrix Addition", "Vector Addition", "Bisection Method"]
+        operations = ["Gaussian Elimination", "Row Echelon", "Matrix Addition", "Vector Addition", "Vector Multiplication", "Bisection Method"]
         self.operation_combo = ttk.Combobox(self.frame1, values=operations)
         self.operation_combo.grid(row=0, column=0, padx=5, pady=5, sticky="n")
         self.operation_combo.bind("<<ComboboxSelected>>", self.on_operation_selected)

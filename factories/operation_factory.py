@@ -3,6 +3,7 @@ from strategies.gaussian_elimination import GaussianElimination
 from strategies.row_echelon import RowEchelon
 from strategies.matrix_addition import MatrixAddition
 from strategies.vector_addition import VectorAddition
+from strategies.vector_multiplication import VectorMultiplication
 
 class OperationFactory:
     _operations = {
@@ -10,7 +11,8 @@ class OperationFactory:
         "Row Echelon": RowEchelon,
         "Matrix Addition": MatrixAddition,
         "Bisection Method": BisectionMethod,
-        "Vector Addition": VectorAddition
+        "Vector Addition": VectorAddition,
+        "Vector Multiplication": VectorMultiplication
     }
 
     @staticmethod
