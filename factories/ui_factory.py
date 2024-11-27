@@ -1,5 +1,8 @@
 from ui.bisection_method_ui import BisectionMethodUI
 from ui.gaussian_elimination_ui import GaussianEliminationUI
+from ui.matrix_equation_ui import MatrixEquationUI
+from ui.matrix_product_by_vector_sum_ui import MatrixProductByVectorSumUI
+from ui.matrix_product_ui import MatrixProductUI
 from ui.row_echelon_ui import RowEchelonUI
 from ui.matrix_addition_ui import MatrixAdditionUI
 from ui.scalar_product_ui import ScalarProductUI
@@ -17,6 +20,9 @@ class OperationUIFactory:
         "Vector Multiplication": VectorMultiplicationUI,
         "Transpose Matrix": TransposeMatrixUI,
         "Scalar Product": ScalarProductUI,
+        "Matrix Product": MatrixProductUI,
+        "Matrix Equation": MatrixEquationUI,
+        "Matrix Product by Vector Sum": MatrixProductByVectorSumUI,
     }
 
     @staticmethod

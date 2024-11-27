@@ -1,5 +1,8 @@
 from strategies.bisection_method import BisectionMethod
 from strategies.gaussian_elimination import GaussianElimination
+from strategies.matrix_equation import MatrixEquation
+from strategies.matrix_product import MatrixProduct
+from strategies.matrix_product_by_vector_sum import MatrixProductByVectorSum
 from strategies.row_echelon import RowEchelon
 from strategies.matrix_addition import MatrixAddition
 from strategies.scalar_product import ScalarProduct
@@ -16,7 +19,10 @@ class OperationFactory:
         "Vector Addition": VectorAddition,
         "Vector Multiplication": VectorMultiplication,
         "Transpose Matrix": TransposeMatrix,
-        "Scalar Product": ScalarProduct
+        "Scalar Product": ScalarProduct,
+        "Matrix Product": MatrixProduct,
+        "Matrix Equation": MatrixEquation,
+        "Matrix Product by Vector Sum": MatrixProductByVectorSum,
     }
 
     @staticmethod
