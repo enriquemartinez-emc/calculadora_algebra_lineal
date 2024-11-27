@@ -1,0 +1,62 @@
+# Byte-compiled / compiled Python files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+env/
+ENV/
+.venv/
+.ENV/
+
+# Tkinter-related files (cache or temp files)
+*.tcl
+*.tk
+
+# Tkinter bootstrap specific (if you generate theme assets, exclude them if not needed)
+*.theme-cache
+
+# IDE and editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+*.swn
+*.bak
+
+# macOS
+.DS_Store
+
+# Logs and runtime files
+*.log
+*.out
+*.pid
+
+# Coverage reports
+htmlcov/
+.coverage
+*.cover
+*.coverage.*
+
+# Pytest cache
+.cache/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+*.egg
+*.manifest
+
+# Python-wheel and other setup files
+*.whl
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Miscellaneous
+*.sqlite3
+*.db
+*.pkl
+*.lock
