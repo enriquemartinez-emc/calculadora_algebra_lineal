@@ -80,6 +80,7 @@ class LinearAlgebraCalculatorApp:
             "Cramer's Rule",
             "Inverse of a Matrix",
             "False Position Method",
+            "Newton Raphson Method",
             "Bisection Method",
         ]
 

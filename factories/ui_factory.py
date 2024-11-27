@@ -7,6 +7,7 @@ from ui.inverse_of_matrix_ui import InverseOfMatrixUI
 from ui.matrix_equation_ui import MatrixEquationUI
 from ui.matrix_product_by_vector_sum_ui import MatrixProductByVectorSumUI
 from ui.matrix_product_ui import MatrixProductUI
+from ui.newton_raphson_method_ui import NewtonRaphsonMethodUI
 from ui.row_echelon_ui import RowEchelonUI
 from ui.matrix_addition_ui import MatrixAdditionUI
 from ui.scalar_product_ui import ScalarProductUI
@@ -31,6 +32,7 @@ class OperationUIFactory:
         "Cramer's Rule": CramersRuleUI,
         "Inverse of a Matrix": InverseOfMatrixUI,
         "False Position Method": FalsePositionMethodUI,
+        "Newston Raphson Method": NewtonRaphsonMethodUI,
     }
 
     @staticmethod

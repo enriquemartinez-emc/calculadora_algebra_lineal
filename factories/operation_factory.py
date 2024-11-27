@@ -7,6 +7,7 @@ from strategies.inverse_of_matrix import InverseOfMatrix
 from strategies.matrix_equation import MatrixEquation
 from strategies.matrix_product import MatrixProduct
 from strategies.matrix_product_by_vector_sum import MatrixProductByVectorSum
+from strategies.newton_raphson_method import NewtonRaphsonMethod
 from strategies.row_echelon import RowEchelon
 from strategies.matrix_addition import MatrixAddition
 from strategies.scalar_product import ScalarProduct
@@ -31,6 +32,7 @@ class OperationFactory:
         "Cramer's Rule": CramersRule,
         "Inverse of a Matrix": InverseOfMatrix,
         "False Position Method": FalsePositionMethod,
+        "Newton Raphson Method": NewtonRaphsonMethod,
     }
 
     @staticmethod
