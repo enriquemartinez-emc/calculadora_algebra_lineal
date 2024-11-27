@@ -1,6 +1,7 @@
 from strategies.bisection_method import BisectionMethod
 from strategies.cramers_rule import CramersRule
 from strategies.determinant_of_matrix import DeterminantOfMatrix
+from strategies.false_position_method import FalsePositionMethod
 from strategies.gaussian_elimination import GaussianElimination
 from strategies.inverse_of_matrix import InverseOfMatrix
 from strategies.matrix_equation import MatrixEquation
@@ -29,6 +30,7 @@ class OperationFactory:
         "Determinant of a Matrix": DeterminantOfMatrix,
         "Cramer's Rule": CramersRule,
         "Inverse of a Matrix": InverseOfMatrix,
+        "False Position Method": FalsePositionMethod,
     }
 
     @staticmethod

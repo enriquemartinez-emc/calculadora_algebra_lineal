@@ -79,6 +79,7 @@ class LinearAlgebraCalculatorApp:
             "Determinant of a Matrix",
             "Cramer's Rule",
             "Inverse of a Matrix",
+            "False Position Method",
             "Bisection Method",
         ]
 

@@ -1,6 +1,7 @@
 from ui.bisection_method_ui import BisectionMethodUI
 from ui.cramers_rule_ui import CramersRuleUI
 from ui.determinant_of_matrix_ui import DeterminantOfMatrixUI
+from ui.false_position_method_ui import FalsePositionMethodUI
 from ui.gaussian_elimination_ui import GaussianEliminationUI
 from ui.inverse_of_matrix_ui import InverseOfMatrixUI
 from ui.matrix_equation_ui import MatrixEquationUI
@@ -29,6 +30,7 @@ class OperationUIFactory:
         "Determinant of a Matrix": DeterminantOfMatrixUI,
         "Cramer's Rule": CramersRuleUI,
         "Inverse of a Matrix": InverseOfMatrixUI,
+        "False Position Method": FalsePositionMethodUI,
     }
 
     @staticmethod
