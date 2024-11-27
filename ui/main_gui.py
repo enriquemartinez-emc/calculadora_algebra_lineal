@@ -78,7 +78,8 @@ class LinearAlgebraCalculatorApp:
             "Matrix Product by Vector Sum",
             "Bisection Method",
         ]
-        self.operation_combo = ttk.Combobox(self.frame1, values=operations)
+
+        self.operation_combo = ttk.Combobox(self.frame1, values=operations, width=50)
         self.operation_combo.grid(row=0, column=0, padx=5, pady=5, sticky="n")
         self.operation_combo.bind("<<ComboboxSelected>>", self.on_operation_selected)
         self.operation_combo.current(0)  # Set the default selection to Gaussian Elimination
