@@ -11,6 +11,7 @@ from ui.newton_raphson_method_ui import NewtonRaphsonMethodUI
 from ui.row_echelon_ui import RowEchelonUI
 from ui.matrix_addition_ui import MatrixAdditionUI
 from ui.scalar_product_ui import ScalarProductUI
+from ui.secant_method_ui import SecantMethodUI
 from ui.transpose_matrix_ui import TransposeMatrixUI
 from ui.vector_addition_ui import VectorAdditionUI
 from ui.vector_multiplication_ui import VectorMultiplicationUI
@@ -33,6 +34,7 @@ class OperationUIFactory:
         "Inverse of a Matrix": InverseOfMatrixUI,
         "False Position Method": FalsePositionMethodUI,
         "Newston Raphson Method": NewtonRaphsonMethodUI,
+        "Secant Method": SecantMethodUI,
     }
 
     @staticmethod

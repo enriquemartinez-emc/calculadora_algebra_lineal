@@ -11,6 +11,7 @@ from strategies.newton_raphson_method import NewtonRaphsonMethod
 from strategies.row_echelon import RowEchelon
 from strategies.matrix_addition import MatrixAddition
 from strategies.scalar_product import ScalarProduct
+from strategies.secant_method import SecantMethod
 from strategies.transpose_matrix import TransposeMatrix
 from strategies.vector_addition import VectorAddition
 from strategies.vector_multiplication import VectorMultiplication
@@ -33,6 +34,7 @@ class OperationFactory:
         "Inverse of a Matrix": InverseOfMatrix,
         "False Position Method": FalsePositionMethod,
         "Newton Raphson Method": NewtonRaphsonMethod,
+        "Secant Method": SecantMethod,
     }
 
     @staticmethod

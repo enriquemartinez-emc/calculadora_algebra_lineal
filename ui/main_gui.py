@@ -79,9 +79,10 @@ class LinearAlgebraCalculatorApp:
             "Determinant of a Matrix",
             "Cramer's Rule",
             "Inverse of a Matrix",
+            "Bisection Method",
             "False Position Method",
             "Newton Raphson Method",
-            "Bisection Method",
+            "Secant Method",
         ]
 
         self.operation_combo = ttk.Combobox(self.frame1, values=operations, width=50)
