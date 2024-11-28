@@ -20,25 +20,29 @@ class TransposeMatrixUI:
         self.control_frame = tk.LabelFrame(self.frame)
         self.control_frame.pack(anchor="center", padx=40, pady=20, fill="x")
 
-        self.matrix_size_label = tk.Label(self.control_frame, text="Matrix Size:")
+        # Matrix size input
+        self.size_frame = tk.Frame(self.control_frame)
+        self.size_frame.pack(anchor="center", pady=10)
+
+        self.matrix_size_label = tk.Label(self.size_frame, text="Tamaño de la Matriz:")
         self.matrix_size_label.pack(side="top")
 
-        self.rows_label = tk.Label(self.control_frame, text="Rows:")
+        self.rows_label = tk.Label(self.size_frame, text="Filas:")
         self.rows_label.pack(side="left")
 
-        self.rows_spinbox = tk.Spinbox(self.control_frame, from_=2, to=10, command=self.update_matrix_inputs)
+        self.rows_spinbox = tk.Spinbox(self.size_frame, from_=2, to=10, command=self.update_matrix_inputs)
         self.rows_spinbox.pack(side="left")
 
-        self.columns_label = tk.Label(self.control_frame, text="Columns:")
+        self.columns_label = tk.Label(self.size_frame, text="Columnas:")
         self.columns_label.pack(side="left", padx=(20, 0))
 
-        self.columns_spinbox = tk.Spinbox(self.control_frame, from_=2, to=10, command=self.update_matrix_inputs)
+        self.columns_spinbox = tk.Spinbox(self.size_frame, from_=2, to=10, command=self.update_matrix_inputs)
         self.columns_spinbox.pack(side="left")
 
         self.matrix_frame = tk.Frame(self.control_frame)
         self.matrix_frame.pack(anchor="center", pady=10)
 
-        self.calculate_button = tk.Button(self.control_frame, text="Transpose", command=self.calculate)
+        self.calculate_button = tk.Button(self.control_frame, text="Transponer", command=self.calculate)
         self.calculate_button.pack(anchor="center", pady=10)
 
         self.update_matrix_inputs()
