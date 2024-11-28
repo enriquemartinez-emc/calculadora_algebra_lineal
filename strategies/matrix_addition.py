@@ -4,25 +4,25 @@ from strategies.math_operation_strategy import MathOperationStrategy
 class MatrixAddition(MathOperationStrategy):
     def execute(self, matrices, scalars):
         if not self.validate_matrices(matrices):
-            return "All matrices must have the same dimensions."
+            return "Todas las matrices deben tener las mismas dimensiones."
 
         try:
             scalars = [Fraction(scalar) for scalar in scalars]
         except ValueError:
-            return "Scalars must be integers, numbers with decimals, or fractions; they must not contain letters or special characters."
+            return "Los escalares deben ser enteros, números con decimales o fracciones; no deben contener letras ni caracteres especiales."
 
         rows, cols = len(matrices[0]), len(matrices[0][0])
         result_matrix = [[Fraction(0) for _ in range(cols)] for _ in range(rows)]
         steps = []
 
         for matrix_index, (matrix, scalar) in enumerate(zip(matrices, scalars)):
-            description = f"Multiplying matrix {matrix_index + 1} by scalar {scalar}."
+            description = f"Multiplicando la matriz {matrix_index + 1} por el escalar {scalar}."
             steps.append((description, self.format_matrix([[scalar * cell for cell in row] for row in matrix])))
             for i in range(rows):
                 for j in range(cols):
                     result_matrix[i][j] += scalar * matrix[i][j]
 
-        steps.append(("Final Result", self.format_matrix(result_matrix)))
+        steps.append(("Resultado Final", self.format_matrix(result_matrix)))
 
         result = self.format_matrix(result_matrix)
         return {

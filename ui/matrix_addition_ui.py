@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk
+from ttkbootstrap.dialogs import Messagebox
 from random import randint
 from fractions import Fraction
 from factories.operation_factory import OperationFactory
@@ -95,8 +95,9 @@ class MatrixAdditionUI:
 
         self.matrix_entries.append(matrix)
 
-        remove_button = tk.Button(matrix_frame, text="Eliminar Matriz", command=lambda: self.remove_specific_matrix(matrix_frame, matrix, scalar_entry))
-        remove_button.pack(side="top", pady=5)
+        if len(self.matrix_entries) > 2:
+            remove_button = tk.Button(matrix_frame, text="Eliminar Matriz", command=lambda: self.remove_specific_matrix(matrix_frame, matrix, scalar_entry))
+            remove_button.pack(side="top", pady=5)
 
     def remove_specific_matrix(self, matrix_frame, matrix, scalar_entry):
         self.matrix_entries.remove(matrix)
@@ -113,7 +114,7 @@ class MatrixAdditionUI:
             for scalar_entry in self.scalar_entries:
                 scalars.append(Fraction(scalar_entry.get()))
         except ValueError:
-            messagebox.showerror("Error", "Los escalares deben ser enteros, números con decimales o fracciones; no deben contener letras ni caracteres especiales.")
+            Messagebox.show_error("Los escalares deben ser enteros, números con decimales o fracciones; no deben contener letras ni caracteres especiales.", "Error", parent=self.frame)
             return
 
         for matrix in self.matrix_entries:
@@ -124,7 +125,7 @@ class MatrixAdditionUI:
             matrices.append(mat)
 
         if not all(len(matrix) == len(matrices[0]) and len(matrix[0]) == len(matrices[0][0]) for matrix in matrices):
-            messagebox.showerror("Error", "Todas las matrices deben tener las mismas dimensiones.")
+            Messagebox.show_error("Todas las matrices deben tener las mismas dimensiones.", "Error", parent=self.frame)
             return
 
         operation = OperationFactory.get_operation("Matrix Addition")
