@@ -20,17 +20,29 @@ class VectorMultiplicationUI:
         self.control_frame = tk.LabelFrame(self.frame)
         self.control_frame.pack(anchor="center", padx=40, pady=20, fill="x")
 
-        self.vector_size_label = tk.Label(self.control_frame, text="Tamaño del Vector:")
+        # Vector size input
+        self.size_frame = tk.Frame(self.control_frame)
+        self.size_frame.pack(anchor="center", pady=10)
+
+        self.vector_size_label = tk.Label(self.size_frame, text="Tamaño del Vector:")
         self.vector_size_label.pack(side="left")
 
-        self.vector_size_spinbox = tk.Spinbox(self.control_frame, from_=2, to=10, command=self.update_vector_inputs)
+        self.vector_size_spinbox = tk.Spinbox(self.size_frame, from_=2, to=10, command=self.update_vector_inputs)
         self.vector_size_spinbox.pack(side="left")
+        self.vector_size_spinbox.delete(0, "end")
+        self.vector_size_spinbox.insert(0, "3")
 
         self.linear_vector_frame = tk.Frame(self.control_frame)
         self.linear_vector_frame.pack(anchor="center", pady=10)
 
+        self.linear_vector_label = tk.Label(self.linear_vector_frame, text="Vector Lineal:")
+        self.linear_vector_label.grid(row=1, column=0, padx=5, pady=5)
+
         self.columnar_vector_frame = tk.Frame(self.control_frame)
         self.columnar_vector_frame.pack(anchor="center", pady=10)
+
+        self.columnar_vector_label = tk.Label(self.columnar_vector_frame, text="Vector Columniar:")
+        self.columnar_vector_label.grid(row=0, column=0, padx=5, pady=5)
 
         self.calculate_button = tk.Button(self.control_frame, text="Calcular", command=self.calculate)
         self.calculate_button.pack(anchor="center", pady=10)
@@ -39,9 +51,11 @@ class VectorMultiplicationUI:
 
     def update_vector_inputs(self):
         for widget in self.linear_vector_frame.winfo_children():
-            widget.destroy()
+            if widget != self.linear_vector_label:
+                widget.destroy()
         for widget in self.columnar_vector_frame.winfo_children():
-            widget.destroy()
+            if widget != self.columnar_vector_label:
+                widget.destroy()
 
         size = int(self.vector_size_spinbox.get())
         self.linear_vector_entries = [None] * size
@@ -49,12 +63,12 @@ class VectorMultiplicationUI:
 
         for i in range(size):
             linear_entry = tk.Entry(self.linear_vector_frame, width=5)
-            linear_entry.grid(row=0, column=i, padx=5, pady=5)
+            linear_entry.grid(row=1, column=i + 1, padx=5, pady=5)
             linear_entry.insert(0, 1)  # Default value
             self.linear_vector_entries[i] = linear_entry
 
             columnar_entry = tk.Entry(self.columnar_vector_frame, width=5)
-            columnar_entry.grid(row=i, column=0, padx=5, pady=5)
+            columnar_entry.grid(row=i + 1, column=0, padx=5, pady=5)
             columnar_entry.insert(0, 1)  # Default value
             self.columnar_vector_entries[i] = columnar_entry
 
