@@ -1,5 +1,6 @@
 import tkinter as tk
 from random import randint
+from fractions import Fraction
 from factories.operation_factory import OperationFactory
 
 class InverseOfMatrixUI:
@@ -23,7 +24,7 @@ class InverseOfMatrixUI:
         self.matrix_size_frame = tk.Frame(self.control_frame)
         self.matrix_size_frame.pack(anchor="center", pady=5)
 
-        self.matrix_size_label = tk.Label(self.matrix_size_frame, text="Matrix Size:")
+        self.matrix_size_label = tk.Label(self.matrix_size_frame, text="Tamaño de la Matriz:")
         self.matrix_size_label.pack(side="left")
 
         self.matrix_size_spinbox = tk.Spinbox(self.matrix_size_frame, from_=1, to=10, command=self.update_matrix_inputs)
@@ -32,7 +33,7 @@ class InverseOfMatrixUI:
         self.matrix_frame = tk.Frame(self.control_frame)
         self.matrix_frame.pack(anchor="center", pady=10)
 
-        self.calculate_button = tk.Button(self.control_frame, text="Calculate Inverse", command=self.calculate)
+        self.calculate_button = tk.Button(self.control_frame, text="Calcular Inversa", command=self.calculate)
         self.calculate_button.pack(anchor="center", pady=10)
 
         self.update_matrix_inputs()
@@ -57,7 +58,7 @@ class InverseOfMatrixUI:
 
         for i in range(size):
             for j in range(size):
-                matrix[i][j] = float(self.matrix_entries[i][j].get())
+                matrix[i][j] = Fraction(self.matrix_entries[i][j].get())
 
         operation = OperationFactory.get_operation("Inverse of a Matrix")
         if operation:
@@ -73,17 +74,22 @@ class InverseOfMatrixUI:
             error_label = tk.Label(self.result_frame, text=result, font=("Helvetica", 12, "bold"), fg="red")
             error_label.pack()
         else:
-            result_label = tk.Label(self.result_frame, text="Inverse of the Matrix", font=("Helvetica", 14, "bold"))
+            result_label = tk.Label(self.result_frame, text="Inversa de la Matriz", font=("Helvetica", 14, "bold"))
             result_label.pack(pady=10)
 
             if isinstance(result, dict):
                 for description, details in result["steps"]:
-                    step_label = tk.Label(self.result_frame, text=description, font=("Helvetica", 10, "italic"))
+                    step_label = tk.Label(self.result_frame, text=description, font=("Helvetica", 10, "italic"), wraplength=self.result_frame.winfo_width())
                     step_label.pack()
                     if isinstance(details, list):
-                        details_str = ', '.join(map(str, details))
-                        detail_label = tk.Label(self.result_frame, text=details_str, font=("Courier", 10))
-                        detail_label.pack()
+                        matrix_frame = tk.Frame(self.result_frame, relief=tk.SOLID, borderwidth=1)
+                        matrix_frame.pack(pady=5)
+                        max_col_widths = [max(len(str(details[i][j])) for i in range(len(details))) for j in range(len(details[0]))]
+
+                        for row in details:
+                            row_text = "  ".join(f"{str(cell).rjust(max_col_widths[j])}" for j, cell in enumerate(row))
+                            row_label = tk.Label(matrix_frame, text=f"[ {row_text} ]", font=("Courier", 10))
+                            row_label.pack()
                     else:
                         result_value_label = tk.Label(self.result_frame, text=str(details), font=("Courier", 10))
                         result_value_label.pack()
