@@ -11,19 +11,19 @@ class NewtonRaphsonMethod(MathOperationStrategy):
         try:
             func = sympify(func_str)
         except:
-            return "The entered function must be defined in terms of ‘x’, please check."
+            return "La función ingresada debe estar definida en términos de 'x'. Por favor, verifique."
 
         if not all(str(symbol) == 'x' for symbol in func.free_symbols):
-            return "The entered function must be defined in terms of ‘x’, please check."
+            return "La función ingresada debe estar definida en términos de 'x'. Por favor, verifique."
 
         if allowed_error < 0:
-            return "The error to be considered cannot be a negative value"
+            return "El error permitido no puede ser un valor negativo."
 
         f = lambdify(x, func)
         f_prime = lambdify(x, diff(func, x))
 
         current_value = initial_value
-        steps = []
+        iteration_steps = []
         x_vals = [current_value]
         y_vals = [f(current_value)]
 
@@ -32,24 +32,30 @@ class NewtonRaphsonMethod(MathOperationStrategy):
             f_prime_current = f_prime(current_value)
 
             if f_prime_current == 0:
-                return "The derivative is zero, the method fails."
+                return "La derivada es cero, el método falla."
 
             next_value = current_value - f_current / f_prime_current
-            steps.append(f"Iteration {i+1}: Current value: {self.format_value(current_value)}, f(Current value): {self.format_value(f_current)}, f'(Current value): {self.format_value(f_prime_current)}, Next value: {self.format_value(next_value)}")
+            ea = abs((next_value - current_value) / next_value) if next_value != 0 else float('inf')
+            iteration_steps.append((i + 1, current_value, next_value, ea, f_current, f_prime_current))
             x_vals.append(next_value)
             y_vals.append(f(next_value))
 
-            if abs(next_value - current_value) < allowed_error:
+            if ea < allowed_error:
                 plot_url = self.plot_results(func, x_vals, y_vals)
                 return {
                     "result": self.format_value(next_value),
-                    "steps": steps,
+                    "iterations": iteration_steps,
                     "plot_url": plot_url
                 }
 
             current_value = next_value
 
-        return f"A root of the function with the initial value {self.format_value(initial_value)} was not found in {iterations} iterations."
+        plot_url = self.plot_results(func, x_vals, y_vals)
+        return {
+            "result": self.format_value(current_value),
+            "iterations": iteration_steps,
+            "plot_url": plot_url
+        }
 
     def plot_results(self, func, x_vals, y_vals):
         x = Symbol('x')
