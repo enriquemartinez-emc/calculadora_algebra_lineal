@@ -12,25 +12,26 @@ class FalsePositionMethod(MathOperationStrategy):
         try:
             func = sympify(func_str)
         except:
-            return "The entered function must be defined in terms of ‘x’, please check."
+            return "La función ingresada debe estar definida en términos de 'x'. Por favor, verifique."
 
         if not all(str(symbol) == 'x' for symbol in func.free_symbols):
-            return "The entered function must be defined in terms of ‘x’, please check."
+            return "La función ingresada debe estar definida en términos de 'x'. Por favor, verifique."
 
         if lower_limit >= upper_limit:
-            return "The lower limit must be less than and different from the upper limit"
+            return "El límite inferior debe ser menor y diferente del límite superior."
 
         if allowed_error < 0:
-            return "The error to be considered cannot be a negative value"
+            return "El error permitido no puede ser un valor negativo."
 
         f = lambdify(x, func)
 
         if f(lower_limit) * f(upper_limit) > 0:
-            return "The entered interval does not contain a root of the function"
+            return "El intervalo ingresado no contiene una raíz de la función."
 
         x_vals = []
         y_vals = []
         steps = []
+        iteration_data = []
 
         while True:
             f_lower = f(lower_limit)
@@ -40,7 +41,8 @@ class FalsePositionMethod(MathOperationStrategy):
             x_vals.append(midpoint)
             y_vals.append(f_mid)
 
-            steps.append(f"Lower limit: {self.format_value(lower_limit)}, Upper limit: {self.format_value(upper_limit)}, Midpoint: {self.format_value(midpoint)}, f(Midpoint): {self.format_value(f_mid)}")
+            iteration_data.append((lower_limit, upper_limit, midpoint, f_lower, f_upper, f_mid))
+            steps.append(f"Límite inferior: {self.format_value(lower_limit)}, Límite superior: {self.format_value(upper_limit)}, Punto medio: {self.format_value(midpoint)}, f(Punto medio): {self.format_value(f_mid)}")
 
             if abs(f_mid) < allowed_error:
                 break
@@ -50,13 +52,13 @@ class FalsePositionMethod(MathOperationStrategy):
             elif f_upper * f_mid < 0:
                 lower_limit = midpoint
             else:
-                return "The entered interval does not contain a root of the function"
+                return "El intervalo ingresado no contiene una raíz de la función."
 
         plot_url = self.plot_results(func, lower_limit, upper_limit, x_vals, y_vals)
 
         return {
             "result": self.format_value(midpoint),
-            "steps": steps,
+            "iterations": iteration_data,
             "plot_url": plot_url
         }
 
@@ -71,7 +73,7 @@ class FalsePositionMethod(MathOperationStrategy):
         plt.scatter(x_vals, y_vals, color='red')
         plt.axhline(0, color='black', linewidth=0.5)
         plt.axvline(0, color='black', linewidth=0.5)
-        plt.title('False Position Method')
+        plt.title('Método de Falsa Posición')
         plt.xlabel('x')
         plt.ylabel('f(x)')
         plt.legend()
