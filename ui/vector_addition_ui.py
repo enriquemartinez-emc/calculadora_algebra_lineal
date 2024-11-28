@@ -20,20 +20,27 @@ class VectorAdditionUI:
         self.control_frame = tk.LabelFrame(self.frame)
         self.control_frame.pack(anchor="center", padx=40, pady=20, fill="x")
 
-        self.vector_size_label = tk.Label(self.control_frame, text="Tamaño del Vector:")
+        # Vector size input
+        self.size_frame = tk.Frame(self.control_frame)
+        self.size_frame.pack(anchor="center", pady=10)
+
+        self.vector_size_label = tk.Label(self.size_frame, text="Tamaño del Vector:")
         self.vector_size_label.pack(side="left")
 
-        self.vector_size_spinbox = tk.Spinbox(self.control_frame, from_=2, to=10, command=self.update_vector_inputs)
+        self.vector_size_spinbox = tk.Spinbox(self.size_frame, from_=2, to=10, command=self.update_vector_inputs)
         self.vector_size_spinbox.pack(side="left")
 
         self.vectors_frame = tk.Frame(self.control_frame)
         self.vectors_frame.pack(anchor="center", pady=10)
 
-        self.add_vector_button = tk.Button(self.control_frame, text="Agregar Vector", command=self.add_vector)
-        self.add_vector_button.pack(anchor="center", pady=10)
+        self.buttons_frame = tk.Frame(self.control_frame)
+        self.buttons_frame.pack(anchor="center", pady=10)
 
-        self.calculate_button = tk.Button(self.control_frame, text="Calcular", command=self.calculate)
-        self.calculate_button.pack(anchor="center", pady=10)
+        self.add_vector_button = tk.Button(self.buttons_frame, text="Agregar Vector", command=self.add_vector)
+        self.add_vector_button.pack(side="left", padx=10)
+
+        self.calculate_button = tk.Button(self.buttons_frame, text="Calcular", command=self.calculate)
+        self.calculate_button.pack(side="left", padx=10)
 
         self.update_vector_inputs()
 
