@@ -26,7 +26,7 @@ class DeterminantOfMatrixUI:
         self.matrix_size_label = tk.Label(self.matrix_size_frame, text="Matrix Size:")
         self.matrix_size_label.pack(side="left")
 
-        self.matrix_size_spinbox = tk.Spinbox(self.matrix_size_frame, from_=1, to=10, command=self.update_matrix_inputs)
+        self.matrix_size_spinbox = tk.Spinbox(self.matrix_size_frame, from_=2, to=10, command=self.update_matrix_inputs)
         self.matrix_size_spinbox.pack(side="left")
 
         self.matrix_frame = tk.Frame(self.control_frame)
