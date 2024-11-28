@@ -11,6 +11,9 @@ class LinearAlgebraCalculatorApp:
         self.frame1 = None
         self.frame2 = None
         self.frame3 = None
+        self.canvas = None
+        self.scrollbar = None
+        self.scrollable_frame = None
         self.create_main_ui()
 
     def create_main_ui(self):
@@ -26,9 +29,7 @@ class LinearAlgebraCalculatorApp:
         self.frame2.grid(row=1, column=1, padx=10, pady=10, sticky="nsew")
         self.frame2.grid_propagate(False)
 
-        self.frame3 = tk.LabelFrame(self.root, text="Resultado", width=frame_width)
-        self.frame3.grid(row=1, column=2, padx=10, pady=10, sticky="nsew")
-        self.frame3.grid_propagate(False)
+        self.create_scrollable_frame3(frame_width)
 
         self.root.grid_columnconfigure(0, weight=1)
         self.root.grid_columnconfigure(1, weight=1)
@@ -38,7 +39,29 @@ class LinearAlgebraCalculatorApp:
         self.create_operation_selection_ui()
 
         # Load the default operation UI (Eliminacion Gaussiana)
-        self.load_ui_component("Eliminacion Gaussiana")
+        self.load_ui_component("Eliminación Gaussiana")
+
+    def create_scrollable_frame3(self, frame_width):
+        self.frame3 = tk.LabelFrame(self.root, text="Resultado", width=frame_width)
+        self.frame3.grid(row=1, column=2, padx=10, pady=10, sticky="nsew")
+        self.frame3.grid_propagate(False)
+
+        self.canvas = tk.Canvas(self.frame3, width=frame_width)
+        self.scrollbar = ttk.Scrollbar(self.frame3, orient="vertical", command=self.canvas.yview)
+        self.scrollbar.pack(side="right", fill="y")
+
+        self.scrollable_frame = ttk.Frame(self.canvas, width=frame_width)
+        self.scrollable_frame.bind(
+            "<Configure>",
+            lambda e: self.canvas.configure(
+                scrollregion=self.canvas.bbox("all")
+            )
+        )
+
+        self.canvas.create_window((0, 0), window=self.scrollable_frame, anchor="n")
+        self.canvas.configure(yscrollcommand=self.scrollbar.set)
+
+        self.canvas.pack(side="left", fill="both", expand=True)
 
     def create_top_bar(self):
         top_frame = tk.Frame(self.root, bg=self.root.cget('bg'))
@@ -128,7 +151,7 @@ class LinearAlgebraCalculatorApp:
         self.load_ui_component(selected_operation)
 
     def clear_result_section(self):
-        for widget in self.frame3.winfo_children():
+        for widget in self.scrollable_frame.winfo_children():
             widget.destroy()
 
     def load_ui_component(self, operation):
@@ -140,4 +163,8 @@ class LinearAlgebraCalculatorApp:
         ui_factory = OperationUIFactory()
         ui_component = ui_factory.get_operation_ui(operation_english)
         if ui_component:
-            ui_component.create_ui(self.frame2, self.frame3)
+            ui_component.create_ui(self.frame2, self.scrollable_frame)
+
+        # Center-align the contents of the scrollable frame
+        self.scrollable_frame.update_idletasks()
+        self.canvas.itemconfig(self.canvas.create_window((0, 0), window=self.scrollable_frame, anchor="n", width=self.canvas.winfo_width()))
