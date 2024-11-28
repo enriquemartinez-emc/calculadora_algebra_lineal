@@ -67,7 +67,7 @@ class LinearAlgebraCalculatorApp:
     def create_operation_selection_ui(self):
         self.operations = [
             "Gaussian Elimination", 
-            "Row Echelon", 
+            "Row Echelon Form", 
             "Matrix Addition", 
             "Vector Addition", 
             "Vector Multiplication", 

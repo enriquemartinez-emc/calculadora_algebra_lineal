@@ -8,7 +8,7 @@ from ui.matrix_equation_ui import MatrixEquationUI
 from ui.matrix_product_by_vector_sum_ui import MatrixProductByVectorSumUI
 from ui.matrix_product_ui import MatrixProductUI
 from ui.newton_raphson_method_ui import NewtonRaphsonMethodUI
-from ui.row_echelon_ui import RowEchelonUI
+from ui.row_echelon_ui import RowEchelonFormUI
 from ui.matrix_addition_ui import MatrixAdditionUI
 from ui.scalar_product_ui import ScalarProductUI
 from ui.secant_method_ui import SecantMethodUI
@@ -19,7 +19,7 @@ from ui.vector_multiplication_ui import VectorMultiplicationUI
 class OperationUIFactory:
     _factories = {
         "Gaussian Elimination": GaussianEliminationUI,
-        "Row Echelon": RowEchelonUI,
+        "Row Echelon Form": RowEchelonFormUI,
         "Matrix Addition": MatrixAdditionUI,
         "Bisection Method": BisectionMethodUI,
         "Vector Addition": VectorAdditionUI,

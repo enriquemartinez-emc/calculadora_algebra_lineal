@@ -8,7 +8,7 @@ from strategies.matrix_equation import MatrixEquation
 from strategies.matrix_product import MatrixProduct
 from strategies.matrix_product_by_vector_sum import MatrixProductByVectorSum
 from strategies.newton_raphson_method import NewtonRaphsonMethod
-from strategies.row_echelon import RowEchelon
+from strategies.row_echelon import RowEchelonForm
 from strategies.matrix_addition import MatrixAddition
 from strategies.scalar_product import ScalarProduct
 from strategies.secant_method import SecantMethod
@@ -19,7 +19,7 @@ from strategies.vector_multiplication import VectorMultiplication
 class OperationFactory:
     _operations = {
         "Gaussian Elimination": GaussianElimination,
-        "Row Echelon": RowEchelon,
+        "Row Echelon Form": RowEchelonForm,
         "Matrix Addition": MatrixAddition,
         "Bisection Method": BisectionMethod,
         "Vector Addition": VectorAddition,
