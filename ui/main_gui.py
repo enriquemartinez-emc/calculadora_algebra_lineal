@@ -66,15 +66,15 @@ class LinearAlgebraCalculatorApp:
 
     def create_operation_selection_ui(self):
         self.categories = {
-            "Sistemas de Ecuaciones Lineales": ["Eliminacion Gaussiana", "Forma Escalonada"],
+            "Sistemas de Ecuaciones Lineales": ["Eliminación Gaussiana", "Forma Escalonada"],
             "Operaciones con matrices": ["Transponer matriz", "Producto de matriz por suma de vectores", "Sumas de matrices", "Producto de matrices/vectores", "Calcular el determinante de una matriz", "Aplicar regla de Cramer", "Obtener la inversa de una matriz"],
             "Operaciones con Vectores": ["Sumar vectores", "Multiplicar vectores"],
-            "Raices de Funciones": ["Metodo de biseccion", "Metodo de Newton", "Regla falsa", "Secante"]
+            "Raíces de Funciones": ["Método de bisección", "Método de Newton", "Regla falsa", "Secante"]
         }
 
         # Map Spanish options to English terms for loading the correct UI component
         self.operation_mapping = {
-            "Eliminacion Gaussiana": "Gaussian Elimination",
+            "Eliminación Gaussiana": "Gaussian Elimination",
             "Forma Escalonada": "Row Echelon Form",
             "Transponer matriz": "Transpose Matrix",
             "Producto de matriz por suma de vectores": "Matrix Product by Vector Sum",
@@ -85,8 +85,8 @@ class LinearAlgebraCalculatorApp:
             "Obtener la inversa de una matriz": "Inverse of a Matrix",
             "Sumar vectores": "Vector Addition",
             "Multiplicar vectores": "Vector Multiplication",
-            "Metodo de biseccion": "Bisection Method",
-            "Metodo de Newton": "Newton Raphson Method",
+            "Método de bisección": "Bisection Method",
+            "Método de Newton": "Newton Raphson Method",
             "Regla falsa": "False Position Method",
             "Secante": "Secant Method"
         }
