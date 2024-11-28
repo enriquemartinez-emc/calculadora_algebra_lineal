@@ -7,7 +7,7 @@ class MatrixProductByVectorSum(MathOperationStrategy):
             return "All vectors must have the same dimensions."
 
         if len(matrix[0]) != len(vectors[0]):
-            return "The number of columns in the matrix must equal the number of rows in the vector."
+            return "El número de columnas de la matriz debe ser igual al número de filas del vector."
 
         try:
             vectors = [[Fraction(val) for val in vector] for vector in vectors]
