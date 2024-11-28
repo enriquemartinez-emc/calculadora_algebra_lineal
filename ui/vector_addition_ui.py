@@ -81,6 +81,14 @@ class VectorAdditionUI:
 
         self.vector_entries.append(vector)
 
+        if len(self.vector_entries) > 2:
+            remove_button = tk.Button(vector_frame, text="Eliminar Vector", command=lambda: self.remove_vector(vector_frame, vector))
+            remove_button.pack(side="top")
+
+    def remove_vector(self, vector_frame, vector):
+        self.vector_entries.remove(vector)
+        vector_frame.destroy()
+
     def calculate(self):
         vectors = []
         scalars = []
