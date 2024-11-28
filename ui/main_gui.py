@@ -18,15 +18,15 @@ class LinearAlgebraCalculatorApp:
 
         frame_width = 300  # Fixed width for all frames
 
-        self.frame1 = tk.LabelFrame(self.root, text="Operation Selection", width=frame_width)
+        self.frame1 = tk.LabelFrame(self.root, text="Seleccion de Operacion", width=frame_width)
         self.frame1.grid(row=1, column=0, padx=10, pady=10, sticky="nsew")
         self.frame1.grid_propagate(False)
 
-        self.frame2 = tk.LabelFrame(self.root, text="Input", width=frame_width)
+        self.frame2 = tk.LabelFrame(self.root, text="Entrada", width=frame_width)
         self.frame2.grid(row=1, column=1, padx=10, pady=10, sticky="nsew")
         self.frame2.grid_propagate(False)
 
-        self.frame3 = tk.LabelFrame(self.root, text="Result", width=frame_width)
+        self.frame3 = tk.LabelFrame(self.root, text="Resultado", width=frame_width)
         self.frame3.grid(row=1, column=2, padx=10, pady=10, sticky="nsew")
         self.frame3.grid_propagate(False)
 
@@ -37,8 +37,8 @@ class LinearAlgebraCalculatorApp:
 
         self.create_operation_selection_ui()
 
-        # Load the default operation UI (Gaussian Elimination)
-        self.load_ui_component("Gaussian Elimination")
+        # Load the default operation UI (Eliminacion Gaussiana)
+        self.load_ui_component("Eliminacion Gaussiana")
 
     def create_top_bar(self):
         top_frame = tk.Frame(self.root, bg=self.root.cget('bg'))
@@ -56,7 +56,7 @@ class LinearAlgebraCalculatorApp:
         title_label.pack(side="left", padx=5)
 
         # Theme Checkbutton
-        theme_checkbutton = ttk.Checkbutton(top_frame, text="Light Theme", command=self.toggle_theme)
+        theme_checkbutton = ttk.Checkbutton(top_frame, text="Tema Claro", command=self.toggle_theme)
         theme_checkbutton.pack(side="right", padx=5)
 
     def toggle_theme(self):
@@ -65,47 +65,79 @@ class LinearAlgebraCalculatorApp:
         self.style.theme_use(new_theme)
 
     def create_operation_selection_ui(self):
-        self.operations = [
-            "Gaussian Elimination", 
-            "Row Echelon Form", 
-            "Matrix Addition", 
-            "Vector Addition", 
-            "Vector Multiplication", 
-            "Transpose Matrix", 
-            "Scalar Product",
-            "Matrix Product",
-            "Matrix Equation",
-            "Matrix Product by Vector Sum",
-            "Determinant of a Matrix",
-            "Cramer's Rule",
-            "Inverse of a Matrix",
-            "Bisection Method",
-            "False Position Method",
-            "Newton Raphson Method",
-            "Secant Method",
-        ]
+        self.categories = {
+            "Sistemas de Ecuaciones Lineales": ["Eliminacion Gaussiana", "Forma Escalonada"],
+            "Operaciones con matrices": ["Transponer matriz", "Producto de matriz por suma de vectores", "Sumas de matrices", "Producto de matrices/vectores", "Calcular el determinante de una matriz", "Aplicar regla de Cramer", "Obtener la inversa de una matriz"],
+            "Operaciones con Vectores": ["Sumar vectores", "Multiplicar vectores"],
+            "Raices de Funciones": ["Metodo de biseccion", "Metodo de Newton", "Regla falsa", "Secante"]
+        }
 
-        self.operation_combo = ttk.Combobox(self.frame1, values=self.operations, width=50)
-        self.operation_combo.grid(row=0, column=0, padx=5, pady=5, sticky="n")
+        # Map Spanish options to English terms for loading the correct UI component
+        self.operation_mapping = {
+            "Eliminacion Gaussiana": "Gaussian Elimination",
+            "Forma Escalonada": "Row Echelon Form",
+            "Transponer matriz": "Transpose Matrix",
+            "Producto de matriz por suma de vectores": "Matrix Product by Vector Sum",
+            "Sumas de matrices": "Matrix Addition",
+            "Producto de matrices/vectores": "Matrix Product",
+            "Calcular el determinante de una matriz": "Determinant of a Matrix",
+            "Aplicar regla de Cramer": "Cramer's Rule",
+            "Obtener la inversa de una matriz": "Inverse of a Matrix",
+            "Sumar vectores": "Vector Addition",
+            "Multiplicar vectores": "Vector Multiplication",
+            "Metodo de biseccion": "Bisection Method",
+            "Metodo de Newton": "Newton Raphson Method",
+            "Regla falsa": "False Position Method",
+            "Secante": "Secant Method"
+        }
+
+        # Calculate width based on the longest text
+        combobox_width = 25  # Half of the previous width
+
+        self.category_label = tk.Label(self.frame1, text="Categorias:")
+        self.category_label.grid(row=0, column=0, padx=5, pady=5, sticky="w")
+
+        self.category_combo = ttk.Combobox(self.frame1, values=list(self.categories.keys()), width=combobox_width)
+        self.category_combo.grid(row=1, column=0, padx=5, pady=5, sticky="ew")
+        self.category_combo.bind("<<ComboboxSelected>>", self.on_category_selected)
+
+        self.operation_label = tk.Label(self.frame1, text="Operaciones:")
+        self.operation_label.grid(row=2, column=0, padx=5, pady=5, sticky="w")
+
+        self.operation_combo = ttk.Combobox(self.frame1, width=combobox_width)
+        self.operation_combo.grid(row=3, column=0, padx=5, pady=5, sticky="ew")
         self.operation_combo.bind("<<ComboboxSelected>>", self.on_operation_selected)
-        self.operation_combo.current(0)  # Set the default selection to Gaussian Elimination
 
         self.frame1.grid_columnconfigure(0, weight=1)  # Center the operation combo
 
-        self.show_all_options()
+        # Set default category and fill operations
+        self.category_combo.set("Sistemas de Ecuaciones Lineales")
+        self.on_category_selected(None)
 
-    def show_all_options(self):
-        self.operation_combo["height"] = len(self.operations)
+    def on_category_selected(self, event):
+        selected_category = self.category_combo.get()
+        operations = self.categories.get(selected_category, [])
+        self.operation_combo["values"] = operations
+        if operations:
+            self.operation_combo.current(0)  # Set the default selection to the first child operation
+            self.on_operation_selected(None)  # Load the first operation's UI
 
     def on_operation_selected(self, event):
         selected_operation = self.operation_combo.get()
+        self.clear_result_section()  # Clear the result section
         self.load_ui_component(selected_operation)
+
+    def clear_result_section(self):
+        for widget in self.frame3.winfo_children():
+            widget.destroy()
 
     def load_ui_component(self, operation):
         for widget in self.frame2.winfo_children():
             widget.destroy()
 
+        # Use the mapping to get the English term for the selected operation
+        operation_english = self.operation_mapping.get(operation, operation)
         ui_factory = OperationUIFactory()
-        ui_component = ui_factory.get_operation_ui(operation)
+        ui_component = ui_factory.get_operation_ui(operation_english)
         if ui_component:
             ui_component.create_ui(self.frame2, self.frame3)
