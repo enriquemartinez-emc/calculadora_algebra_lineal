@@ -21,20 +21,20 @@ class RowEchelonFormUI:
         self.control_frame = tk.LabelFrame(self.frame)
         self.control_frame.pack(anchor="center", padx=40, pady=20, fill="x")
 
+        self.matrix_size_label = tk.Label(self.control_frame, text="Tamaño de la Matriz:")
+        self.matrix_size_label.pack(anchor="center", pady=10)
+
         self.matrix_size_frame = tk.Frame(self.control_frame)
         self.matrix_size_frame.pack(anchor="center", pady=5)
 
-        self.matrix_size_label = tk.Label(self.matrix_size_frame, text="Matrix Size:")
-        self.matrix_size_label.pack(side="left")
-
-        self.rows_label = tk.Label(self.matrix_size_frame, text="Rows:")
+        self.rows_label = tk.Label(self.matrix_size_frame, text="Filas:")
         self.rows_label.pack(side="left")
 
         self.rows_spinbox = tk.Spinbox(self.matrix_size_frame, from_=2, to=10, command=self.update_matrix_inputs)
         self.rows_spinbox.pack(side="left")
 
-        self.cols_label = tk.Label(self.matrix_size_frame, text="Cols:")
-        self.cols_label.pack(side="left")
+        self.cols_label = tk.Label(self.matrix_size_frame, text="Columnas:")
+        self.cols_label.pack(side="left", padx=(20, 0))
 
         self.cols_spinbox = tk.Spinbox(self.matrix_size_frame, from_=3, to=11, command=self.update_matrix_inputs)
         self.cols_spinbox.pack(side="left")
