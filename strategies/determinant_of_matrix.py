@@ -7,7 +7,7 @@ class DeterminantOfMatrix(MathOperationStrategy):
         cols = len(matrix[0])
         
         if rows != cols:
-            return "The matrix entered must be square."
+            return "La matriz ingresada debe ser cuadrada."
 
         matrix = [[Fraction(cell) for cell in row] for row in matrix]
         steps = [("Matriz Original:", self.format_matrix(matrix))]
@@ -18,17 +18,17 @@ class DeterminantOfMatrix(MathOperationStrategy):
             if i != max_row:
                 matrix[i], matrix[max_row] = matrix[max_row], matrix[i]
                 exchanges += 1
-                steps.append((f"Intercambié la fila {i+1} con la fila {max_row+1}", self.format_matrix(matrix)))
+                steps.append((f"Fila {i+1} intercambiada con la fila {max_row+1} para asegurar el pivote máximo.", self.format_matrix(matrix)))
             for j in range(i + 1, rows):
                 if matrix[i][i] == 0:
                     continue
                 ratio = matrix[j][i] / matrix[i][i]
                 for k in range(i, cols):
                     matrix[j][k] -= ratio * matrix[i][k]
-                steps.append((f"Realicé la operación R{j+1} = R{j+1} - ({self.format_value(ratio)}) * R{i+1}", self.format_matrix(matrix)))
+                steps.append((f"Actualización de la fila {j+1}: R{j+1} = R{j+1} - ({self.format_value(ratio)}) * R{i+1} para eliminar el término debajo del pivote.", self.format_matrix(matrix)))
 
         determinant = (-1 if exchanges % 2 else 1) * self.product_of_diagonal(matrix)
-        steps.append(("Determinante Calculado:", determinant))
+        steps.append(("Determinante Calculado: El producto de los elementos diagonales ajustado por el número de intercambios de fila es:", determinant))
 
         return {
             "result": determinant,

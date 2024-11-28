@@ -13,23 +13,33 @@ class GaussianElimination(MathOperationStrategy):
 
         steps = [("Matriz Inicial:", self.format_matrix(augmented_matrix))]
 
-        for i in range(rows):
-            self.pivot(augmented_matrix, i, steps)
+        try:
+            for i in range(rows):
+                self.pivot(augmented_matrix, i, steps)
 
-            for j in range(i + 1, rows):
-                ratio = augmented_matrix[j][i] / augmented_matrix[i][i]
-                augmented_matrix[j] = [augmented_matrix[j][k] - ratio * augmented_matrix[i][k] for k in range(cols)]
-                steps.append((f"Fila {j + 1} = Fila {j + 1} - ({self.format_value(ratio)}) * Fila {i + 1}", self.format_matrix(augmented_matrix)))
+                for j in range(i + 1, rows):
+                    if augmented_matrix[i][i] == 0:
+                        return f"Error de división por cero en la fila {i + 1}. No se puede continuar con la eliminación gaussiana."
+                    
+                    ratio = augmented_matrix[j][i] / augmented_matrix[i][i]
+                    augmented_matrix[j] = [augmented_matrix[j][k] - ratio * augmented_matrix[i][k] for k in range(cols)]
+                    steps.append((f"Fila {j + 1} = Fila {j + 1} - ({self.format_value(ratio)}) * Fila {i + 1}", self.format_matrix(augmented_matrix)))
 
-        for i in range(rows - 1, -1, -1):
-            ratio = augmented_matrix[i][i]
-            augmented_matrix[i] = [augmented_matrix[i][k] / ratio for k in range(cols)]
-            steps.append((f"Normalizar Fila {i + 1} dividiendo por {self.format_value(ratio)}", self.format_matrix(augmented_matrix)))
+            for i in range(rows - 1, -1, -1):
+                if augmented_matrix[i][i] == 0:
+                    return f"Error de división por cero en la fila {i + 1}. No se puede continuar con la eliminación gaussiana."
+                
+                ratio = augmented_matrix[i][i]
+                augmented_matrix[i] = [augmented_matrix[i][k] / ratio for k in range(cols)]
+                steps.append((f"Normalizar Fila {i + 1} dividiendo por {self.format_value(ratio)}", self.format_matrix(augmented_matrix)))
 
-            for j in range(i):
-                ratio = augmented_matrix[j][i]
-                augmented_matrix[j] = [augmented_matrix[j][k] - ratio * augmented_matrix[i][k] for k in range(cols)]
-                steps.append((f"Fila {j + 1} = Fila {j + 1} - ({self.format_value(ratio)}) * Fila {i + 1}", self.format_matrix(augmented_matrix)))
+                for j in range(i):
+                    ratio = augmented_matrix[j][i]
+                    augmented_matrix[j] = [augmented_matrix[j][k] - ratio * augmented_matrix[i][k] for k in range(cols)]
+                    steps.append((f"Fila {j + 1} = Fila {j + 1} - ({self.format_value(ratio)}) * Fila {i + 1}", self.format_matrix(augmented_matrix)))
+
+        except ZeroDivisionError:
+            return "Error de división por cero encontrado durante la eliminación gaussiana. Verifique la matriz de entrada."
 
         return {
             "result": self.format_matrix(augmented_matrix),

@@ -1,9 +1,14 @@
 import tkinter as tk
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-from sympy import latex, sympify
-from sympy.parsing.latex import parse_latex
+from sympy import symbols, sympify, latex, sin, cos, tan, Function
 from factories.operation_factory import OperationFactory
 from threading import Timer
+
+# Define sec as a SymPy function
+class Sec(Function):
+    @classmethod
+    def eval(cls, x):
+        return 1/cos(x)
 
 class BisectionMethodUI:
     def __init__(self):
@@ -70,9 +75,10 @@ class BisectionMethodUI:
     def display_equation(self):
         equation_text = self.function_entry.get()
         try:
-            equation = parse_latex(equation_text)
-            normal_equation = equation
-            self.equation_label_var.set(normal_equation)
+            # Allow parsing of all trigonometric functions, including the custom Sec function
+            equation = sympify(equation_text, locals={'sin': sin, 'cos': cos, 'tan': tan, 'sec': Sec})
+            latex_equation = latex(equation)
+            self.equation_label_var.set(f"$$ {latex_equation} $$")
         except Exception as e:
             self.equation_label_var.set("Entrada no válida")
 
@@ -82,11 +88,12 @@ class BisectionMethodUI:
         upper_limit = float(self.upper_limit_entry.get())
         allowed_error = float(self.error_entry.get())
 
-        # Convert LaTeX function to SymPy expression
+        # Convert the function string to a SymPy expression
         try:
-            function_str = parse_latex(function_str)
+            # Allow parsing of all trigonometric functions, including the custom Sec function
+            function_str = sympify(function_str, locals={'sin': sin, 'cos': cos, 'tan': tan, 'sec': Sec})
         except:
-            self.display_result({"error_message": "Sintaxis de función LaTeX no válida."}, function_str)
+            self.display_result({"error_message": "Sintaxis de función no válida."}, function_str)
             return
 
         operation = OperationFactory.get_operation("Bisection Method")

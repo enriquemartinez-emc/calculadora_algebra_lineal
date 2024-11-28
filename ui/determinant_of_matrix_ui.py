@@ -20,11 +20,12 @@ class DeterminantOfMatrixUI:
         self.control_frame = tk.LabelFrame(self.frame)
         self.control_frame.pack(anchor="center", padx=40, pady=20, fill="x")
 
+        # Matrix size label at the top
+        self.matrix_size_label = tk.Label(self.control_frame, text="Tamaño de la Matriz:")
+        self.matrix_size_label.pack(anchor="center", pady=5)
+
         self.matrix_size_frame = tk.Frame(self.control_frame)
         self.matrix_size_frame.pack(anchor="center", pady=5)
-
-        self.matrix_size_label = tk.Label(self.matrix_size_frame, text="Matrix Size:")
-        self.matrix_size_label.pack(side="left")
 
         self.matrix_size_spinbox = tk.Spinbox(self.matrix_size_frame, from_=2, to=10, command=self.update_matrix_inputs)
         self.matrix_size_spinbox.pack(side="left")
@@ -32,7 +33,7 @@ class DeterminantOfMatrixUI:
         self.matrix_frame = tk.Frame(self.control_frame)
         self.matrix_frame.pack(anchor="center", pady=10)
 
-        self.calculate_button = tk.Button(self.control_frame, text="Calculate Determinant", command=self.calculate)
+        self.calculate_button = tk.Button(self.control_frame, text="Calcular Determinante", command=self.calculate)
         self.calculate_button.pack(anchor="center", pady=10)
 
         self.update_matrix_inputs()
@@ -70,7 +71,7 @@ class DeterminantOfMatrixUI:
                 widget.destroy()
 
         if isinstance(result, str):  # Display error message if result is a string
-            error_label = tk.Label(self.result_frame, text=result, font=("Helvetica", 12, "bold"), fg="red")
+            error_label = tk.Label(self.result_frame, text=result, font=("Helvetica", 12, "bold"), fg="red", wraplength=self.result_frame.winfo_width())
             error_label.pack()
         else:
             result_label = tk.Label(self.result_frame, text="Determinante de la Matriz", font=("Helvetica", 14, "bold"))
@@ -78,15 +79,15 @@ class DeterminantOfMatrixUI:
 
             if isinstance(result, dict):
                 for description, details in result["steps"]:
-                    step_label = tk.Label(self.result_frame, text=description, font=("Helvetica", 10, "italic"))
+                    step_label = tk.Label(self.result_frame, text=description, font=("Helvetica", 10, "italic"), wraplength=self.result_frame.winfo_width())
                     step_label.pack()
                     if isinstance(details, list):
                         for detail in details:
-                            detail_label = tk.Label(self.result_frame, text=str(detail), font=("Courier", 10))
+                            detail_label = tk.Label(self.result_frame, text=str(detail), font=("Courier", 10), wraplength=self.result_frame.winfo_width())
                             detail_label.pack()
                     else:
-                        result_value_label = tk.Label(self.result_frame, text=str(details), font=("Courier", 10))
+                        result_value_label = tk.Label(self.result_frame, text=str(details), font=("Courier", 10), wraplength=self.result_frame.winfo_width())
                         result_value_label.pack()
             else:
-                result_value_label = tk.Label(self.result_frame, text=str(result), font=("Courier", 10))
+                result_value_label = tk.Label(self.result_frame, text=str(result), font=("Courier", 10), wraplength=self.result_frame.winfo_width())
                 result_value_label.pack()
