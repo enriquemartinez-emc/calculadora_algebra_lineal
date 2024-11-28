@@ -2,63 +2,48 @@ from fractions import Fraction
 from strategies.math_operation_strategy import MathOperationStrategy
 
 class GaussianElimination(MathOperationStrategy):
-    def execute(self, matrix):
-        matrix = [[Fraction(cell) for cell in row] for row in matrix]
-        rows, cols = len(matrix), len(matrix[0])
-        original_matrix = [row[:] for row in matrix]
-        steps = []
-        descriptions = []
+    def execute(self, augmented_matrix):
+        rows = len(augmented_matrix)
+        cols = len(augmented_matrix[0])
 
-        if cols <= rows:
-            raise ValueError("La matriz no está en forma aumentada para la eliminación gaussiana. Se esperaba una matriz aumentada.")
+        if rows + 1 != cols:
+            return "La matriz ingresada debe ser cuadrada y aumentada."
+
+        augmented_matrix = [[Fraction(cell) for cell in row] for row in augmented_matrix]
+
+        steps = [("Matriz Inicial:", self.format_matrix(augmented_matrix))]
 
         for i in range(rows):
-            max_row = max(range(i, rows), key=lambda r: abs(matrix[r][i]))
-            if i != max_row:
-                matrix[i], matrix[max_row] = matrix[max_row], matrix[i]
-                descriptions.append(f"Intercambié la fila R{i+1} con la fila R{max_row+1} para posicionar el mayor elemento pivote.")
-            else:
-                descriptions.append(f"Seleccioné la fila R{i+1} como pivote porque tiene el mayor valor absoluto en la columna {i+1}.")
-            steps.append((descriptions[-1], self.format_matrix(matrix)))
+            self.pivot(augmented_matrix, i, steps)
 
-            pivot = matrix[i][i]
-            if pivot != 0:
-                for j in range(i + 1, rows):
-                    ratio = matrix[j][i] / pivot
-                    for k in range(i, cols):
-                        matrix[j][k] -= ratio * matrix[i][k]
-                    descriptions.append(f"Realicé la operación R{j+1} = R{j+1} - ({self.format_value(ratio)}) * R{i+1} para hacer cero el elemento en la posición ({j+1},{i+1}).")
-                    steps.append((descriptions[-1], self.format_matrix(matrix)))
-            else:
-                descriptions.append(f"Se saltó la eliminación para el pivote en la fila R{i+1} porque es cero.")
-                steps.append((descriptions[-1], self.format_matrix(matrix)))
+            for j in range(i + 1, rows):
+                ratio = augmented_matrix[j][i] / augmented_matrix[i][i]
+                augmented_matrix[j] = [augmented_matrix[j][k] - ratio * augmented_matrix[i][k] for k in range(cols)]
+                steps.append((f"Fila {j + 1} = Fila {j + 1} - ({self.format_value(ratio)}) * Fila {i + 1}", self.format_matrix(augmented_matrix)))
 
-        variables = self.back_substitution(matrix)
-        result = self.format_matrix(matrix)
+        for i in range(rows - 1, -1, -1):
+            ratio = augmented_matrix[i][i]
+            augmented_matrix[i] = [augmented_matrix[i][k] / ratio for k in range(cols)]
+            steps.append((f"Normalizar Fila {i + 1} dividiendo por {self.format_value(ratio)}", self.format_matrix(augmented_matrix)))
+
+            for j in range(i):
+                ratio = augmented_matrix[j][i]
+                augmented_matrix[j] = [augmented_matrix[j][k] - ratio * augmented_matrix[i][k] for k in range(cols)]
+                steps.append((f"Fila {j + 1} = Fila {j + 1} - ({self.format_value(ratio)}) * Fila {i + 1}", self.format_matrix(augmented_matrix)))
 
         return {
-            "original": self.format_matrix(original_matrix),
-            "steps": steps,
-            "result": result,
-            "variables": variables
+            "result": self.format_matrix(augmented_matrix),
+            "steps": steps
         }
 
-    def back_substitution(self, matrix):
-        rows, cols = len(matrix), len(matrix[0])
-        variables = [0] * (cols - 1)  # asumiendo que la última columna es la parte aumentada
-        for i in range(rows - 1, -1, -1):
-            variables[i] = matrix[i][cols - 1]
-            for j in range(i + 1, cols - 1):
-                variables[i] -= matrix[i][j] * variables[j]
-            variables[i] /= matrix[i][i]
-        return variables
-
-    def format_value(self, value):
-        if isinstance(value, Fraction):
-            return value
-        if value.is_integer():
-            return int(value)
-        return Fraction(value).limit_denominator()
+    def pivot(self, matrix, pivot_index, steps):
+        max_row = max(range(pivot_index, len(matrix)), key=lambda r: abs(matrix[r][pivot_index]))
+        if pivot_index != max_row:
+            matrix[pivot_index], matrix[max_row] = matrix[max_row], matrix[pivot_index]
+            steps.append((f"Intercambiar Fila {pivot_index + 1} con Fila {max_row + 1}", self.format_matrix(matrix)))
 
     def format_matrix(self, matrix):
-        return [[self.format_value(cell) for cell in row] for row in matrix]
+        return '\n'.join(['[' + ' '.join(f"{self.format_value(cell):>8}" for cell in row) + ']' for row in matrix])
+
+    def format_value(self, value):
+        return int(value) if value.denominator == 1 else value
