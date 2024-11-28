@@ -1,6 +1,6 @@
 import tkinter as tk
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-from sympy import symbols, sympify, latex, sin, cos, tan, Function
+from sympy import sec, symbols, sympify, latex, sin, cos, tan, Function
 from factories.operation_factory import OperationFactory
 from threading import Timer
 
@@ -76,7 +76,8 @@ class BisectionMethodUI:
         equation_text = self.function_entry.get()
         try:
             # Allow parsing of all trigonometric functions, including the custom Sec function
-            equation = sympify(equation_text, locals={'sin': sin, 'cos': cos, 'tan': tan, 'sec': Sec})
+            x = symbols('x')  # Define x as a symbol
+            equation = sympify(equation_text, locals={'sin': sin, 'cos': cos, 'tan': tan, 'sec': sec, 'x': x})
             latex_equation = latex(equation)
             self.equation_label_var.set(f"$$ {latex_equation} $$")
         except Exception as e:
@@ -90,8 +91,9 @@ class BisectionMethodUI:
 
         # Convert the function string to a SymPy expression
         try:
+            x = symbols('x')  # Define x as a symbol
             # Allow parsing of all trigonometric functions, including the custom Sec function
-            function_str = sympify(function_str, locals={'sin': sin, 'cos': cos, 'tan': tan, 'sec': Sec})
+            function_str = sympify(function_str, locals={'sin': sin, 'cos': cos, 'tan': tan, 'sec': Sec, 'x': x})
         except:
             self.display_result({"error_message": "Sintaxis de función no válida."}, function_str)
             return
@@ -110,8 +112,31 @@ class BisectionMethodUI:
             error_label = tk.Label(self.result_frame, text=plot_data["error_message"], font=("Helvetica", 12, "bold"), fg="red")
             error_label.pack()
         else:
+            result_label = tk.Label(self.result_frame, text="Iteraciones del Método de Bisección", font=("Helvetica", 14, "bold"))
+            result_label.pack(pady=10)
+
+            table_frame = tk.Frame(self.result_frame)
+            table_frame.pack(fill="x")
+
+            headers = ["Iteración", "xi-1", "xi", "xi+1", "f(xi-1)", "f(xi)", "f(xi+1)"]
+            for header in headers:
+                header_label = tk.Label(table_frame, text=header, font=("Helvetica", 10, "bold"), borderwidth=1, relief="solid")
+                header_label.grid(row=0, column=headers.index(header), sticky="nsew")
+
+            for i, (lower, mid, upper, f_lower, f_mid, f_upper) in enumerate(plot_data["iterations"]):
+                tk.Label(table_frame, text=i + 1, font=("Helvetica", 10), borderwidth=1, relief="solid").grid(row=i + 1, column=0, sticky="nsew")
+                tk.Label(table_frame, text=f"{lower:.6f}", font=("Helvetica", 10), borderwidth=1, relief="solid").grid(row=i + 1, column=1, sticky="nsew")
+                tk.Label(table_frame, text=f"{mid:.6f}", font=("Helvetica", 10), borderwidth=1, relief="solid").grid(row=i + 1, column=2, sticky="nsew")
+                tk.Label(table_frame, text=f"{upper:.6f}", font=("Helvetica", 10), borderwidth=1, relief="solid").grid(row=i + 1, column=3, sticky="nsew")
+                tk.Label(table_frame, text=f"{f_lower:.6f}", font=("Helvetica", 10), borderwidth=1, relief="solid").grid(row=i + 1, column=4, sticky="nsew")
+                tk.Label(table_frame, text=f"{f_mid:.6f}", font=("Helvetica", 10), borderwidth=1, relief="solid").grid(row=i + 1, column=5, sticky="nsew")
+                tk.Label(table_frame, text=f"{f_upper:.6f}", font=("Helvetica", 10), borderwidth=1, relief="solid").grid(row=i + 1, column=6, sticky="nsew")
+
+            root_label = tk.Label(self.result_frame, text=f"Raíz aproximada: {plot_data['root']:.6f}", font=("Helvetica", 12, "bold"), wraplength=self.result_frame.winfo_width())
+            root_label.pack(pady=10)
+
             operation = OperationFactory.get_operation("Bisection Method")
-            fig = operation.generate_plot(plot_data, str(function_str))
+            fig = operation.generate_plot(plot_data, function_str)
 
             # Create a frame to hold the canvas
             canvas_frame = tk.Frame(self.result_frame)
