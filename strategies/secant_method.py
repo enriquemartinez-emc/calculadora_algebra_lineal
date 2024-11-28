@@ -11,19 +11,20 @@ class SecantMethod(MathOperationStrategy):
         try:
             func = sympify(func_str)
         except:
-            return "The entered function must be defined in terms of ‘x’, please check."
+            return "La función ingresada debe estar definida en términos de 'x'. Por favor, verifique."
 
         if not all(str(symbol) == 'x' for symbol in func.free_symbols):
-            return "The entered function must be defined in terms of ‘x’, please check."
+            return "La función ingresada debe estar definida en términos de 'x'. Por favor, verifique."
 
         if allowed_error < 0:
-            return "The error to be considered cannot be a negative value"
+            return "El error permitido no puede ser un valor negativo."
 
         f = lambdify(x, func)
 
         current_value1 = initial_value1
         current_value2 = initial_value2
         steps = []
+        iteration_data = []
         x_vals = [current_value1, current_value2]
         y_vals = [f(current_value1), f(current_value2)]
 
@@ -32,25 +33,32 @@ class SecantMethod(MathOperationStrategy):
             f_value2 = f(current_value2)
 
             if f_value1 == f_value2:
-                return "The method fails due to division by zero."
+                return "El método falla debido a la división por cero."
 
             next_value = current_value2 - f_value2 * (current_value2 - current_value1) / (f_value2 - f_value1)
-            steps.append(f"Iteration {i+1}: Current value1: {self.format_value(current_value1)}, Current value2: {self.format_value(current_value2)}, f(Current value1): {self.format_value(f_value1)}, f(Current value2): {self.format_value(f_value2)}, Next value: {self.format_value(next_value)}")
+            ea = abs(next_value - current_value2)
+            iteration_data.append((current_value1, current_value2, next_value, ea, f_value1, f_value2))
+            steps.append(f"Iteración {i+1}: Valor actual1: {self.format_value(current_value1)}, Valor actual2: {self.format_value(current_value2)}, f(Valor actual1): {self.format_value(f_value1)}, f(Valor actual2): {self.format_value(f_value2)}, Siguiente valor: {self.format_value(next_value)}")
             x_vals.append(next_value)
             y_vals.append(f(next_value))
 
-            if abs(next_value - current_value2) < allowed_error:
+            if ea < allowed_error:
                 plot_url = self.plot_results(func, x_vals, y_vals)
                 return {
                     "result": self.format_value(next_value),
-                    "steps": steps,
+                    "iterations": iteration_data,
                     "plot_url": plot_url
                 }
 
             current_value1 = current_value2
             current_value2 = next_value
 
-        return f"A root of the function was not found with the initial values {self.format_value(initial_value1)} and {self.format_value(initial_value2)} in {iterations} iterations."
+        plot_url = self.plot_results(func, x_vals, y_vals)
+        return {
+            "result": self.format_value(current_value2),
+            "iterations": iteration_data,
+            "plot_url": plot_url
+        }
 
     def plot_results(self, func, x_vals, y_vals):
         x = Symbol('x')
@@ -63,7 +71,7 @@ class SecantMethod(MathOperationStrategy):
         plt.scatter(x_vals, y_vals, color='red')
         plt.axhline(0, color='black', linewidth=0.5)
         plt.axvline(0, color='black', linewidth=0.5)
-        plt.title('Secant Method')
+        plt.title('Método de la Secante')
         plt.xlabel('x')
         plt.ylabel('f(x)')
         plt.legend()
