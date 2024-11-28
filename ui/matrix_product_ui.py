@@ -21,49 +21,57 @@ class MatrixProductUI:
         self.control_frame = tk.LabelFrame(self.frame)
         self.control_frame.pack(anchor="center", padx=40, pady=20, fill="x")
 
+        self.matrix1_size_label = tk.Label(self.control_frame, text="Tamaño de la Matriz 1:")
+        self.matrix1_size_label.pack(anchor="center", pady=10)
+
         self.matrix1_size_frame = tk.Frame(self.control_frame)
         self.matrix1_size_frame.pack(anchor="center", pady=5)
 
-        self.matrix1_size_label = tk.Label(self.matrix1_size_frame, text="Matrix 1 Size:")
-        self.matrix1_size_label.pack(side="left")
-
-        self.matrix1_rows_label = tk.Label(self.matrix1_size_frame, text="Rows:")
+        self.matrix1_rows_label = tk.Label(self.matrix1_size_frame, text="Filas:")
         self.matrix1_rows_label.pack(side="left")
 
         self.matrix1_rows_spinbox = tk.Spinbox(self.matrix1_size_frame, from_=1, to=10, command=self.update_matrix1_inputs)
         self.matrix1_rows_spinbox.pack(side="left")
+        self.matrix1_rows_spinbox.delete(0, "end")
+        self.matrix1_rows_spinbox.insert(0, 2)
 
-        self.matrix1_columns_label = tk.Label(self.matrix1_size_frame, text="Columns:")
+        self.matrix1_columns_label = tk.Label(self.matrix1_size_frame, text="Columnas:")
         self.matrix1_columns_label.pack(side="left", padx=(20, 0))
 
         self.matrix1_columns_spinbox = tk.Spinbox(self.matrix1_size_frame, from_=1, to=10, command=self.update_matrix1_inputs)
         self.matrix1_columns_spinbox.pack(side="left")
+        self.matrix1_columns_spinbox.delete(0, "end")
+        self.matrix1_columns_spinbox.insert(0, 2)
 
         self.matrix1_frame = tk.Frame(self.control_frame)
         self.matrix1_frame.pack(anchor="center", pady=10)
 
+        self.matrix2_size_label = tk.Label(self.control_frame, text="Tamaño de la Matriz 2:")
+        self.matrix2_size_label.pack(anchor="center", pady=10)
+
         self.matrix2_size_frame = tk.Frame(self.control_frame)
         self.matrix2_size_frame.pack(anchor="center", pady=5)
 
-        self.matrix2_size_label = tk.Label(self.matrix2_size_frame, text="Matrix 2 Size:")
-        self.matrix2_size_label.pack(side="left")
-
-        self.matrix2_rows_label = tk.Label(self.matrix2_size_frame, text="Rows:")
+        self.matrix2_rows_label = tk.Label(self.matrix2_size_frame, text="Filas:")
         self.matrix2_rows_label.pack(side="left")
 
         self.matrix2_rows_spinbox = tk.Spinbox(self.matrix2_size_frame, from_=1, to=10, command=self.update_matrix2_inputs)
         self.matrix2_rows_spinbox.pack(side="left")
+        self.matrix2_rows_spinbox.delete(0, "end")
+        self.matrix2_rows_spinbox.insert(0, 2)
 
-        self.matrix2_columns_label = tk.Label(self.matrix2_size_frame, text="Columns:")
+        self.matrix2_columns_label = tk.Label(self.matrix2_size_frame, text="Columnas:")
         self.matrix2_columns_label.pack(side="left", padx=(20, 0))
 
         self.matrix2_columns_spinbox = tk.Spinbox(self.matrix2_size_frame, from_=1, to=10, command=self.update_matrix2_inputs)
         self.matrix2_columns_spinbox.pack(side="left")
+        self.matrix2_columns_spinbox.delete(0, "end")
+        self.matrix2_columns_spinbox.insert(0, 2)
 
         self.matrix2_frame = tk.Frame(self.control_frame)
         self.matrix2_frame.pack(anchor="center", pady=10)
 
-        self.calculate_button = tk.Button(self.control_frame, text="Calculate Matrix Product", command=self.calculate)
+        self.calculate_button = tk.Button(self.control_frame, text="Calcular Producto de Matrices", command=self.calculate)
         self.calculate_button.pack(anchor="center", pady=10)
 
         self.update_matrix1_inputs()
