@@ -4,11 +4,16 @@ from PIL import Image, ImageTk
 from factories.operation_factory import OperationFactory
 import base64
 from io import BytesIO
+from sympy import latex, sympify
+from sympy.parsing.latex import parse_latex
+from threading import Timer
 
 class FalsePositionMethodUI:
     def __init__(self):
         self.frame = None
         self.result_frame = None
+        self.equation_label_var = None
+        self.update_timer = None
 
     def create_ui(self, parent, result_frame):
         if self.frame:
@@ -19,31 +24,52 @@ class FalsePositionMethodUI:
 
         self.result_frame = result_frame
 
-        self.control_frame = tk.LabelFrame(self.frame, text="False Position Method")
+        self.control_frame = tk.LabelFrame(self.frame, text="Método de la Falsa Posición")
         self.control_frame.pack(anchor="center", padx=40, pady=20, fill="x")
 
-        self.func_label = tk.Label(self.control_frame, text="Function in terms of 'x':")
-        self.func_label.pack(anchor="w")
-        self.func_entry = tk.Entry(self.control_frame, width=50)
-        self.func_entry.pack(anchor="w")
+        self.func_label = tk.Label(self.control_frame, text="Función en términos de 'x':")
+        self.func_label.pack(anchor="center")
+        self.func_entry = tk.Entry(self.control_frame, width=20)
+        self.func_entry.pack(anchor="center")
+        self.func_entry.bind("<KeyRelease>", self.update_equation_label)
 
-        self.lower_limit_label = tk.Label(self.control_frame, text="Lower Limit:")
-        self.lower_limit_label.pack(anchor="w")
+        self.equation_label_var = tk.StringVar()
+        self.equation_label = tk.Label(self.control_frame, textvariable=self.equation_label_var, font=("Helvetica", 12), fg="blue")
+        self.equation_label.pack(anchor="center", pady=5)
+
+        self.lower_limit_label = tk.Label(self.control_frame, text="Límite Inferior:")
+        self.lower_limit_label.pack(anchor="center")
         self.lower_limit_entry = tk.Entry(self.control_frame, width=20)
-        self.lower_limit_entry.pack(anchor="w")
+        self.lower_limit_entry.pack(anchor="center")
 
-        self.upper_limit_label = tk.Label(self.control_frame, text="Upper Limit:")
-        self.upper_limit_label.pack(anchor="w")
+        self.upper_limit_label = tk.Label(self.control_frame, text="Límite Superior:")
+        self.upper_limit_label.pack(anchor="center")
         self.upper_limit_entry = tk.Entry(self.control_frame, width=20)
-        self.upper_limit_entry.pack(anchor="w")
+        self.upper_limit_entry.pack(anchor="center")
 
-        self.error_label = tk.Label(self.control_frame, text="Allowed Error:")
-        self.error_label.pack(anchor="w")
+        self.error_label = tk.Label(self.control_frame, text="Error Permitido:")
+        self.error_label.pack(anchor="center")
         self.error_entry = tk.Entry(self.control_frame, width=20)
-        self.error_entry.pack(anchor="w")
+        self.error_entry.pack(anchor="center")
 
-        self.calculate_button = tk.Button(self.control_frame, text="Calculate", command=self.calculate)
+        self.calculate_button = tk.Button(self.control_frame, text="Calcular", command=self.calculate)
         self.calculate_button.pack(anchor="center", pady=10)
+
+    def update_equation_label(self, event):
+        if self.update_timer:
+            self.update_timer.cancel()
+
+        self.update_timer = Timer(0.5, self.display_equation)
+        self.update_timer.start()
+
+    def display_equation(self):
+        equation_text = self.func_entry.get()
+        try:
+            equation = parse_latex(equation_text)
+            normal_equation = latex(equation)
+            self.equation_label_var.set(normal_equation)
+        except Exception as e:
+            self.equation_label_var.set("Entrada no válida")
 
     def calculate(self):
         func_str = self.func_entry.get()
@@ -64,14 +90,14 @@ class FalsePositionMethodUI:
             for widget in self.result_frame.winfo_children():
                 widget.destroy()
 
-        result_label = tk.Label(self.result_frame, text="False Position Method Result", font=("Helvetica", 14, "bold"))
+        result_label = tk.Label(self.result_frame, text="Resultado del Método de la Falsa Posición", font=("Helvetica", 14, "bold"))
         result_label.pack(pady=10)
 
         for description in result["steps"]:
             step_label = tk.Label(self.result_frame, text=description, font=("Helvetica", 10, "italic"))
             step_label.pack()
 
-        final_result_label = tk.Label(self.result_frame, text=f"Root: {result['result']}", font=("Courier", 12, "bold"))
+        final_result_label = tk.Label(self.result_frame, text=f"Raíz: {result['result']}", font=("Courier", 12, "bold"))
         final_result_label.pack(pady=10)
 
         # Display the plot

@@ -33,7 +33,7 @@ class OperationUIFactory:
         "Cramer's Rule": CramersRuleUI,
         "Inverse of a Matrix": InverseOfMatrixUI,
         "False Position Method": FalsePositionMethodUI,
-        "Newston Raphson Method": NewtonRaphsonMethodUI,
+        "Newton Raphson Method": NewtonRaphsonMethodUI,
         "Secant Method": SecantMethodUI,
     }
 
