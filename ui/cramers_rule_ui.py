@@ -20,19 +20,19 @@ class CramersRuleUI:
         self.control_frame = tk.LabelFrame(self.frame)
         self.control_frame.pack(anchor="center", padx=40, pady=20, fill="x")
 
+        self.matrix_size_label = tk.Label(self.control_frame, text="Tamaño de la Matriz:")
+        self.matrix_size_label.pack(anchor="center", pady=10)
+
         self.matrix_size_frame = tk.Frame(self.control_frame)
         self.matrix_size_frame.pack(anchor="center", pady=5)
 
-        self.matrix_size_label = tk.Label(self.matrix_size_frame, text="Matrix Size:")
-        self.matrix_size_label.pack(side="left")
-
-        self.matrix_size_spinbox = tk.Spinbox(self.matrix_size_frame, from_=1, to=10, command=self.update_matrix_inputs)
+        self.matrix_size_spinbox = tk.Spinbox(self.matrix_size_frame, from_=2, to=10, command=self.update_matrix_inputs)
         self.matrix_size_spinbox.pack(side="left")
 
         self.matrix_frame = tk.Frame(self.control_frame)
         self.matrix_frame.pack(anchor="center", pady=10)
 
-        self.calculate_button = tk.Button(self.control_frame, text="Calculate Using Cramer's Rule", command=self.calculate)
+        self.calculate_button = tk.Button(self.control_frame, text="Calcular con la Regla de Cramer", command=self.calculate)
         self.calculate_button.pack(anchor="center", pady=10)
 
         self.update_matrix_inputs()
@@ -73,7 +73,7 @@ class CramersRuleUI:
             error_label = tk.Label(self.result_frame, text=result, font=("Helvetica", 12, "bold"), fg="red")
             error_label.pack()
         else:
-            result_label = tk.Label(self.result_frame, text="Results using Cramer's Rule", font=("Helvetica", 14, "bold"))
+            result_label = tk.Label(self.result_frame, text="Resultados usando la Regla de Cramer", font=("Helvetica", 14, "bold"))
             result_label.pack(pady=10)
 
             if isinstance(result, dict):
